@@ -16,7 +16,7 @@ state = env.reset()
 # initialize counter and reward
 counter = 0;
 reward = None
-
+# ----------------------
 # change state
 # total number of states: env.observation_space.n
 #env.env.s = 114 # a single set state of many
@@ -41,4 +41,38 @@ while reward != 20:
 print(counter)
 # ------------------
 # Use Q table to solve environment
+# 500 (number of states) by 6 (number of possible actions)
+# table is initially all zeros, Q values for state action
+# pairs are updated at every step
+Q = np.zeros([env.observation_space.n, env.action_space.n])
+
+# var that tracks total accumlated award for each episode
+G = 0
+# var for learning rate
+alpha = 0.618
+
+# implementation of basic Q learning algorithm
+for episode in range(1, 1001):
+    done = False
+    G, reward = 0, 0
+    state = env.reset()
+    while done != True:
+        # returns index/action of highest Q value for current state
+        action = np.argmax(Q[state]) 
+        # action above is taken and we store new state as state2
+        state2, reward, done, info = env.step(action)
+        # bellman step:
+        Q[state, action] += alpha * (reward + np.max(Q[state2]) - Q[state, action])
+        G += reward
+        state = state2
+    if episode % 50 == 0:
+        print('Episode {} Total Reward: {}'.format(episode, G))
+
+
+
+
+
+
+
+
 
