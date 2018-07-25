@@ -1,5 +1,8 @@
 # https://towardsdatascience.com/getting-started-with-reinforcement-q-learning-77499b1766b6
 # https://www.oreilly.com/learning/introduction-to-reinforcement-learning-and-openai-gym <- better
+
+# FOR Taxi-V2 environment in open ai gym
+# https://gym.openai.com/envs/Taxi-v2/
 # ----------------------
 # Import libraries
 import gym
@@ -34,11 +37,13 @@ reward = None
 #env.render()
 # -----------------
 # Loop that does random actions until environment is solved
+"""
 while reward != 20:
     state, reward, done, info = env.step(env.action_space.sample())
     counter += 1
 
 print(counter)
+"""
 # ------------------
 # Use Q table to solve environment
 # 500 (number of states) by 6 (number of possible actions)
@@ -57,7 +62,8 @@ for episode in range(1, 1001):
     G, reward = 0, 0
     state = env.reset()
     while done != True:
-        # returns index/action of highest Q value for current state
+        # returns index of action of highest Q value for current state
+        # argmax returns index of max element
         action = np.argmax(Q[state]) 
         # action above is taken and we store new state as state2
         state2, reward, done, info = env.step(action)
